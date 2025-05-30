@@ -1,7 +1,6 @@
 [![Deploy on Vercel](https://vercel.com/button)](https://vercel.com/)
 🔗 [Voir la démo en ligne](https://ton-lien.vercel.app)
 
-
 # 🚗 Auto Élite – Site vitrine de vente de voitures d'occasion
 
 Ce projet est un site vitrine développé pour un professionnel de l'automobile. Il permet de présenter un catalogue de véhicules d'occasion haut de gamme, un formulaire de rachat, une page d'accueil engageante et une interface responsive au design moderne.
