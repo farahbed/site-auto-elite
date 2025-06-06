@@ -1,15 +1,19 @@
+// components/CardVoiture.js
 "use client";
-
 import Link from "next/link";
 
 export default function CardVoiture({ voiture }) {
   if (!voiture) return null;
 
+  const src =
+    voiture.image ??
+    "https://via.placeholder.com/400x300?text=Photo+indisponible";
+
   return (
     <Link href={`/vehicules/${voiture.id}`}>
       <div className="bg-white text-black rounded-lg shadow-md overflow-hidden hover:scale-105 transition cursor-pointer">
         <img
-          src={voiture.image}
+          src={src}
           alt={`${voiture.marque} ${voiture.modele}`}
           className="w-full h-48 object-cover"
           loading="lazy"
