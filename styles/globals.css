@@ -21,3 +21,7 @@
     }
   }
 }
+.swiper-button-prev,
+.swiper-button-next {
+  color: white; /* couleur des flèches */
+}

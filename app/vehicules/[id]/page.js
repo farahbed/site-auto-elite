@@ -1,6 +1,7 @@
 // app/vehicules/[id]/page.js
-import { fetchVoitures }  from "@/lib/airtable";
-import CarrouselImages    from "@/components/CarrouselImages";
+import { fetchVoitures } from "@/lib/airtable";
+import CarrouselImages from "@/components/CarrouselImages";
+import Link from "next/link";
 
 export default async function VoitureDetailPage({ params }) {
   const voiture = (await fetchVoitures()).find(v => v.id === params.id);
@@ -22,6 +23,15 @@ export default async function VoitureDetailPage({ params }) {
 
       <p>Kilométrage : {voiture.kilometrage?.toLocaleString()} km</p>
       <p>État : {voiture.etat}</p>
+
+      <div className="mt-8">
+        <Link
+          href="/vehicules"
+          className="inline-block text-red-400 hover:text-red-600 transition font-medium"
+        >
+          ← Retour au catalogue
+        </Link>
+      </div>
     </section>
   );
 }

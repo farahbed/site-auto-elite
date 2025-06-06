@@ -2,12 +2,12 @@
 "use client";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination }         from "swiper/modules";
+import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
+import "swiper/css/navigation";
 
 export default function CarrouselImages({ images }) {
-  // Sécurité : on force à un tableau
   const arr = Array.isArray(images)
     ? images
     : typeof images === "string"
@@ -26,10 +26,11 @@ export default function CarrouselImages({ images }) {
 
   return (
     <Swiper
-      modules={[Pagination]}
+      modules={[Navigation, Pagination]}
       spaceBetween={10}
       slidesPerView={1}
       pagination={{ clickable: true }}
+      navigation      // ← active les flèches
       className="mb-6 rounded overflow-hidden"
     >
       {arr.map((src, i) => (
