@@ -1,8 +1,10 @@
 import Link from "next/link";
-import { voitures } from "../data/voitures";
 import CardVoiture from "../components/CardVoiture";
+import { fetchVoitures } from "../lib/airtable";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const voitures = await fetchVoitures();
+
   return (
     <div className="space-y-24">
       {/* HERO AVEC IMAGE */}
