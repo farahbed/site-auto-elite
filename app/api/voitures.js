@@ -1,31 +1,48 @@
+// File: pages/api/voitures.js
 export default async function handler(req, res) {
-  console.log("API handler appelé");
+  if (req.method !== 'POST') return res.status(405).end();
 
-  try {
-    const response = await fetch(
-      `https://api.airtable.com/v0/${process.env.AIRTABLE_BASE_ID}/voitures`,
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
-          'Content-Type': 'application/json',
-        },
-      }
-    );
+  const {
+    marque, modele, annee, prix,
+    kilometrage, carburant, transmission,
+    puissance, portes, couleur,
+    description, options, images
+  } = req.body;
 
-    console.log("Réponse API Airtable status:", response.status);
+  const baseId = process.env.AIRTABLE_BASE_ID;
+  const apiKey = process.env.AIRTABLE_API_KEY;
+  const tableName = process.env.AIRTABLE_TABLE_NAME;
 
-    if (!response.ok) {
-      const text = await response.text();
-      console.error("Erreur API Airtable:", text);
-      return res.status(response.status).json({ error: "Erreur Airtable", details: text });
+  const record = {
+    fields: {
+      'Car Make': marque,
+      'Car Model': modele,
+      'Year': parseInt(annee),
+      'Price': parseFloat(prix),
+      'Mileage': parseInt(kilometrage),
+      'Fuel Type': carburant,
+      'Transmission': transmission,
+      'Horsepower': puissance,
+      'Doors': portes,
+      'Color': couleur,
+      'Description': description,
+      'Options': options,
+      'Car Photo': images.map(url => ({ url }))
     }
+  };
 
-    const  = await response.json();
-    console.log("Données reçues de Airtable:", data);
-
-    res.status(200).json(data);
-  } catch (error) {
-    console.error("Erreur catch dans API handler:", error);
-    res.status(500).json({ error: "Erreur serveur interne" });
-  }
+  const airtableRes = await fetch(
+    `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(tableName)}`,
+    {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(record)
+    }
+  );
+  const data = await airtableRes.json();
+  if (!airtableRes.ok) return res.status(airtableRes.status).json({ error: data });
+  res.status(200).json(data);
 }
