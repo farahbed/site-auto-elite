@@ -5,25 +5,43 @@ import Link from 'next/link';
 
 export default function AdminVoituresPage() {
   const [voitures, setVoitures] = useState([]);
-  const [search, setSearch]   = useState('');
+  const [search, setSearch] = useState('');
   const [sortKey, setSortKey] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
+    setLoading(true);
     fetch('/api/voitures')
       .then(res => res.json())
-      .then(data => setVoitures(data.records || []))
-      .catch(console.error);
+      .then(data => {
+        if (Array.isArray(data)) {
+          setVoitures(data);
+        } else {
+          console.error("Réponse inattendue de l'API :", data);
+          setError("Données invalides reçues du serveur.");
+          setVoitures([]);
+        }
+      })
+      .catch(err => {
+        console.error("Erreur API :", err);
+        setError(err.message || "Erreur de chargement");
+        setVoitures([]);
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   const filtered = useMemo(() => {
+    if (!Array.isArray(voitures)) return [];
+
     let list = voitures.filter(v =>
       `${v.marque} ${v.modele}`.toLowerCase().includes(search.toLowerCase())
     );
 
-    if (sortKey === 'price_asc')      list = [...list].sort((a,b)=> (a.prix||0)-(b.prix||0));
-    else if (sortKey === 'price_desc') list = [...list].sort((a,b)=> (b.prix||0)-(a.prix||0));
-    else if (sortKey === 'year_asc')   list = [...list].sort((a,b)=> (a.annee||0)-(b.annee||0));
-    else if (sortKey === 'year_desc')  list = [...list].sort((a,b)=> (b.annee||0)-(a.annee||0));
+    if (sortKey === 'price_asc') list = [...list].sort((a, b) => (a.prix || 0) - (b.prix || 0));
+    else if (sortKey === 'price_desc') list = [...list].sort((a, b) => (b.prix || 0) - (a.prix || 0));
+    else if (sortKey === 'year_asc') list = [...list].sort((a, b) => (a.annee || 0) - (b.annee || 0));
+    else if (sortKey === 'year_desc') list = [...list].sort((a, b) => (b.annee || 0) - (a.annee || 0));
 
     return list;
   }, [voitures, search, sortKey]);
@@ -40,11 +58,18 @@ export default function AdminVoituresPage() {
         <h1 className="text-2xl font-bold">Gestion des véhicules</h1>
         <Link
           href="/admin/voitures/ajouter"
-          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
+          className="bg-green-600 text-black px-4 py-2 rounded hover:bg-green-700 transition"
         >
           ➕ Ajouter un véhicule
         </Link>
       </header>
+
+      {/* Affichage erreurs */}
+      {error && (
+        <div className="p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+          ⚠️ {error}
+        </div>
+      )}
 
       {/* Recherche & Tri */}
       <div className="flex flex-col sm:flex-row gap-4">
@@ -69,61 +94,71 @@ export default function AdminVoituresPage() {
       </div>
 
       {/* Tableau */}
-      <div className="overflow-x-auto">
-        <table className="w-full table-auto border-collapse">
-          <thead>
-            <tr className="bg-gray-100 text-gray-800">
-              <th className="p-3 border">Image</th>
-              <th className="p-3 border">Modèle</th>
-              <th className="p-3 border">Prix</th>
-              <th className="p-3 border">Année</th>
-              <th className="p-3 border">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filtered.length > 0 ? (
-              filtered.map(v => (
-                <tr key={v.id} className="hover:bg-gray-50">
-                  <td className="p-2 border">
-                    <img
-                      src={v.images?.[0] || '/images/default-car.jpg'}
-                      alt={v.modele}
-                      className="h-16 w-28 object-cover rounded"
-                    />
-                  </td>
-                  <td className="p-2 border text-gray-900">
-                    {v.marque} <span className="font-medium">{v.modele}</span>
-                  </td>
-                  <td className="p-2 border text-gray-900">
-                    {v.prix?.toLocaleString()} €
-                  </td>
-                  <td className="p-2 border text-gray-900">{v.annee}</td>
-                  <td className="p-2 border space-x-2">
-                    <Link
-                      href={`/admin/voitures/modifier/${v.id}`}
-                      className="text-blue-600 hover:underline"
-                    >
-                      ✏️ Modifier
-                    </Link>
-                    <button
-                      onClick={() => handleDelete(v.id)}
-                      className="text-red-600 hover:underline"
-                    >
-                      🗑️ Supprimer
-                    </button>
+      {loading ? (
+        <p className="text-center text-gray-500">Chargement des véhicules...</p>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="w-full table-auto border-collapse">
+            <thead>
+              <tr className="bg-gray-100 text-gray-800">
+                <th className="p-3 border">Image</th>
+                <th className="p-3 border">Modèle</th>
+                <th className="p-3 border">Prix</th>
+                <th className="p-3 border">Année</th>
+                <th className="p-3 border">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.length > 0 ? (
+                filtered.map(v => (
+                  <tr key={v.id} className="hover:bg-gray-50">
+                    <td className="p-2 border">
+                      {Array.isArray(v.images) && v.images.length > 0 && v.images[0] ? (
+                        <img
+                          src={v.images[0]}
+                          alt={v.modele}
+                          className="h-16 w-28 object-cover rounded"
+                        />
+                      ) : (
+                        <div className="h-16 w-28 bg-gray-200 flex items-center justify-center rounded text-gray-400 text-xs">
+                          Pas de photo
+                        </div>
+                      )}
+                    </td>
+                    <td className="p-2 border text-gray-900">
+                      {v.marque} <span className="font-medium">{v.modele}</span>
+                    </td>
+                    <td className="p-2 border text-gray-900">
+                      {v.prix?.toLocaleString()} €
+                    </td>
+                    <td className="p-2 border text-gray-900">{v.annee}</td>
+                    <td className="p-2 border space-x-2">
+                      <Link
+                        href={`/admin/voitures/modifier/${v.id}`}
+                        className="text-blue-600 hover:underline"
+                      >
+                        ✏️ Modifier
+                      </Link>
+                      <button
+                        onClick={() => handleDelete(v.id)}
+                        className="text-red-600 hover:underline"
+                      >
+                        🗑️ Supprimer
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={5} className="p-4 text-center text-gray-500">
+                    Aucun véhicule trouvé.
                   </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan={5} className="p-4 text-center text-gray-500">
-                  Aucun véhicule trouvé.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+              )}
+            </tbody>
+          </table>
+        </div>
+      )}
     </section>
   );
 }

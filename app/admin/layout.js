@@ -20,7 +20,7 @@ export default function AdminLayout({ children }) {
         </Link>
         <button
           onClick={handleLogout}
-          className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-white transition"
+          className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-black transition"
         >
           Déconnexion
         </button>

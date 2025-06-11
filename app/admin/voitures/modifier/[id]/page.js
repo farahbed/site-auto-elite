@@ -1,27 +1,27 @@
 // app/admin/voitures/modifier/[id]/page.js
-import { fetchVoitures } from '@/lib/airtable';
 import ModifierForm from '@/components/admin/ModifierForm';
-import Link from 'next/link';
 
-export default async function ModifierVoiturePage({ params }) {
-  const voitures = await fetchVoitures();
-  const voiture = voitures.find(v => v.id === params.id);
+async function fetchVoiture(id) {
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+  const res = await fetch(`${baseUrl}/api/voitures/${id}`);
+  if (!res.ok) throw new Error("Erreur fetch voiture");
+  return await res.json();
+}
+
+export default async function Page({ params }) {
+  const voiture = await fetchVoiture(params.id);
 
   if (!voiture) {
     return (
-      <p className="text-center text-red-500 mt-10">
-        Véhicule introuvable.
+      <p className="text-center text-red-600 mt-10">
+        ⚠️ Véhicule introuvable.
       </p>
     );
   }
 
   return (
-    <section className="max-w-3xl mx-auto p-6 bg-white rounded shadow space-y-4">
-      <Link href="/admin/voitures" className="text-blue-600 underline">
-        ← Retour à la liste
-      </Link>
-      <h1 className="text-2xl font-bold">✏️ Modifier un véhicule</h1>
-      {/* on passe tout l’objet voiture au formulaire client */}
+    <section className="max-w-3xl mx-auto py-8 px-4">
+      <h1 className="text-2xl font-bold mb-4">✏️ Modifier un véhicule</h1>
       <ModifierForm voiture={voiture} />
     </section>
   );
