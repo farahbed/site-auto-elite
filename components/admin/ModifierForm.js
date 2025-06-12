@@ -53,6 +53,29 @@ export default function ModifierForm({ voiture }) {
     }
   };
 
+  const handleFileUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('images', file);
+
+    try {
+      const uploadRes = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await uploadRes.json();
+      if (!uploadRes.ok) throw new Error(data.error || 'Erreur upload');
+
+      setForm(prev => ({ ...prev, imageUrl: data.url }));
+    } catch (err) {
+      console.error(err);
+      setError('Échec de l’upload de l’image');
+    }
+  };
+
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       {error && <p className="text-red-600">{error}</p>}
@@ -62,7 +85,7 @@ export default function ModifierForm({ voiture }) {
         ['prix','Prix (€)'], ['kilometrage','Kilométrage (km)'],
         ['carburant','Carburant'], ['transmission','Transmission'],
         ['puissance','Puissance'], ['portes','Portes'],
-        ['couleur','Couleur'], ['imageUrl','URL de l’image'],
+        ['couleur','Couleur'],
       ].map(([name,label]) => (
         <div key={name}>
           <label className="block mb-1 font-medium text-gray-800">{label}</label>
@@ -74,6 +97,18 @@ export default function ModifierForm({ voiture }) {
           />
         </div>
       ))}
+
+      <div>
+        <label className="block mb-1 font-medium text-gray-800">Photo</label>
+        <input type="file" accept="image/*" onChange={handleFileUpload} />
+        {form.imageUrl && (
+          <img
+            src={form.imageUrl}
+            alt="Aperçu"
+            className="mt-2 w-48 h-auto rounded shadow"
+          />
+        )}
+      </div>
 
       <div>
         <label className="block mb-1 font-medium text-gray-800">

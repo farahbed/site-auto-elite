@@ -2,7 +2,12 @@
 import { NextResponse } from "next/server";
 
 export async function GET() {
-  const res = NextResponse.json({ message: "Déconnecté" });
-  res.headers.set("Set-Cookie", "admin=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax");
-  return res;
+  // On efface le cookie en lui donnant une date d'expiration passée
+  const secure = process.env.NODE_ENV === "production" ? "; Secure" : "";
+  const cookieValue = `admin=; Path=/; HttpOnly; SameSite=Lax; Expires=Thu, 01 Jan 1970 00:00:00 GMT${secure}`;
+
+  return new NextResponse(null, {
+    status: 200,
+    headers: { "Set-Cookie": cookieValue },
+  });
 }
