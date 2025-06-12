@@ -46,7 +46,8 @@ export default async function handler(req, res) {
         )
       );
       const urls = uploads.map((u) => u.secure_url);
-      return res.status(200).json({ url: urls[0] });
+   // On renvoie bien toutes les URLs sous la clé `urls`
+    return res.status(200).json({ urls });
     } catch (uploadErr) {
       console.error("Cloudinary upload error:", uploadErr);
       return res.status(500).json({ error: uploadErr.message });

@@ -1,10 +1,9 @@
-// app/admin/voitures/ajouter/page.jsx
 'use client';
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function AjouterVoiturePage() {
+export default function AjouterForm() {
   const router = useRouter();
   const [form, setForm] = useState({
     marque: '',
@@ -15,32 +14,27 @@ export default function AjouterVoiturePage() {
     etat: '',
   });
   const [files, setFiles] = useState([]);
-  const [previews, setPreviews] = useState([]); // URLs locales
-  const [cloudUrls, setCloudUrls] = useState([]); // URLs Cloudinary
+  const [previews, setPreviews] = useState([]);
+  const [cloudUrls, setCloudUrls] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // 1) Mise à jour des champs texte
   const handleChange = e => {
     const { name, value } = e.target;
     setForm(f => ({ ...f, [name]: value }));
   };
 
-  // 2) Sélection des fichiers + preview + envoi vers /api/upload
   const handleFilesChange = async e => {
     const selected = Array.from(e.target.files);
     setFiles(selected);
-    // Aperçu local immédiat
     setPreviews(selected.map(f => URL.createObjectURL(f)));
 
-    // Upload sur Cloudinary
     const fd = new FormData();
     selected.forEach(f => fd.append('images', f));
     try {
-      const res = await fetch('/api/upload', { method: 'POST', body: fd });
+      const res  = await fetch('/api/upload', { method: 'POST', body: fd });
       const json = await res.json();
       if (!res.ok) throw new Error(json.error || 'Upload failed');
-      // cloudinary renvoie { urls: [...] }
       setCloudUrls(json.urls);
     } catch (err) {
       console.error('Upload error:', err);
@@ -48,7 +42,6 @@ export default function AjouterVoiturePage() {
     }
   };
 
-  // 3) Soumission du formulaire
   const handleSubmit = async e => {
     e.preventDefault();
     setError('');
@@ -60,13 +53,12 @@ export default function AjouterVoiturePage() {
         annee: Number(form.annee),
         kilometrage: Number(form.kilometrage),
         prix: Number(form.prix),
-        images: cloudUrls, // URLs reçues
+        images: cloudUrls,
       };
-
       const res = await fetch('/api/voitures', {
-        method: 'POST',
+        method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
+        body:    JSON.stringify(payload)
       });
       if (!res.ok) {
         const err = await res.json();
@@ -81,20 +73,16 @@ export default function AjouterVoiturePage() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 max-w-xl mx-auto p-6 bg-white rounded shadow">
-      {error && (
-        <div className="p-3 bg-red-100 text-red-700 rounded">
-          {error}
-        </div>
-      )}
+    <form onSubmit={handleSubmit} className="space-y-4">
+      {error && <p className="text-red-600">{error}</p>}
 
       {[
-        ['marque', 'Marque', 'text'],
-        ['modele', 'Modèle', 'text'],
-        ['annee', 'Année', 'number'],
-        ['kilometrage', 'Kilométrage (km)', 'number'],
-        ['prix', 'Prix (€)', 'number'],
-      ].map(([name,label,type]) => (
+        ['marque','Marque','text'],
+        ['modele','Modèle','text'],
+        ['annee','Année','number'],
+        ['kilometrage','Kilométrage','number'],
+        ['prix','Prix (€)','number'],
+      ].map(([name,label,type])=>(
         <div key={name}>
           <label className="block mb-1 font-medium">{label}</label>
           <input
@@ -109,7 +97,7 @@ export default function AjouterVoiturePage() {
       ))}
 
       <div>
-        <label className="block mb-1 font-medium">État</label>
+        <label className="block mb-1 font-medium">Condition</label>
         <select
           name="etat"
           value={form.etat}
@@ -134,7 +122,7 @@ export default function AjouterVoiturePage() {
           className="w-full border px-3 py-2 rounded"
         />
         <div className="mt-2 flex flex-wrap gap-2">
-          {previews.map((src, i) => (
+          {previews.map((src,i) => (
             <img
               key={i}
               src={src}
@@ -148,9 +136,9 @@ export default function AjouterVoiturePage() {
       <button
         type="submit"
         disabled={loading}
-        className="w-full bg-green-600 text-white py-3 rounded hover:bg-green-700 transition"
+        className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition"
       >
-        {loading ? 'Enregistrement...' : '➕ Ajouter le véhicule'}
+        {loading ? 'Enregistrement...' : '➕ Ajouter'}
       </button>
     </form>
   );
