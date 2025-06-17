@@ -1,4 +1,3 @@
-// components/CarrouselImages.js
 "use client";
 
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -11,10 +10,15 @@ export default function CarrouselImages({ images }) {
   const arr = Array.isArray(images)
     ? images
     : typeof images === "string"
-      ? [images]
-      : [];
+    ? [images]
+    : [];
 
-  if (arr.length === 0) {
+  // ✅ Ne filtre pas Airtable par défaut. Option : ajouter vérif d’URL valide.
+  const validImages = arr
+    .map((img) => (typeof img === "string" ? img : img?.url))
+    .filter(Boolean); // supprime les undefined/null
+
+  if (validImages.length === 0) {
     return (
       <img
         src="https://via.placeholder.com/800x500?text=Pas+d'image"
@@ -30,10 +34,10 @@ export default function CarrouselImages({ images }) {
       spaceBetween={10}
       slidesPerView={1}
       pagination={{ clickable: true }}
-      navigation      // ← active les flèches
+      navigation
       className="mb-6 rounded overflow-hidden"
     >
-      {arr.map((src, i) => (
+      {validImages.map((src, i) => (
         <SwiperSlide key={i}>
           <img src={src} alt={`photo-${i}`} className="w-full h-64 object-cover" />
         </SwiperSlide>

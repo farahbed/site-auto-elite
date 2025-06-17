@@ -1,7 +1,6 @@
 // pages/api/upload.js
 
 import { v2 as cloudinary } from "cloudinary";
-
 export const config = { api: { bodyParser: false } };
 
 cloudinary.config({
@@ -16,7 +15,6 @@ export default async function handler(req, res) {
     return res.status(405).end("Method Not Allowed");
   }
 
-  // Import dynamique de formidable (important sur Vercel/Next.js 14)
   const { IncomingForm } = await import("formidable");
   const form = new IncomingForm();
 
@@ -26,18 +24,17 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: err.message });
     }
 
-    // Les fichiers doivent être dans files.images (même si 1 seul)
-    let images = files.images;
+    const images = files.images;
     if (!images) {
       return res.status(400).json({ error: "Aucune image reçue" });
     }
-    // Toujours travailler sur un tableau
+
     const fileList = Array.isArray(images) ? images : [images];
 
     try {
       const uploads = await Promise.all(
-        fileList.map((f) =>
-          cloudinary.uploader.upload(f.filepath, {
+        fileList.map((file) =>
+          cloudinary.uploader.upload(file.filepath, {
             folder: "voitures",
             use_filename: true,
             unique_filename: false,
@@ -45,9 +42,9 @@ export default async function handler(req, res) {
           })
         )
       );
+
       const urls = uploads.map((u) => u.secure_url);
-   // On renvoie bien toutes les URLs sous la clé `urls`
-    return res.status(200).json({ urls });
+      return res.status(200).json({ urls }); // << renvoie toutes les URLs dans un tableau
     } catch (uploadErr) {
       console.error("Cloudinary upload error:", uploadErr);
       return res.status(500).json({ error: uploadErr.message });
