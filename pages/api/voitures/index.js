@@ -9,11 +9,18 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: "Vars env manquantes." });
   }
   const urlBase = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(tableName)}`;
-  const headers = { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' };
+  const headers = {
+    Authorization: `Bearer ${apiKey}`,
+    'Content-Type': 'application/json'
+  };
 
   // — GET
   if (req.method === "GET") {
-    const resp = await fetch(urlBase, { headers });
+    // ← on désactive le cache ici
+    const resp = await fetch(urlBase, {
+      headers,
+      cache: 'no-store'
+    });
     const data = await resp.json();
     if (!resp.ok) return res.status(resp.status).json({ error: data });
     const voitures = data.records.map(normalizeVoitureRecord);
@@ -24,7 +31,6 @@ export default async function handler(req, res) {
   if (req.method === "POST") {
     const { marque, modele, annee, kilometrage, prix, etat, inspection, images = [] } = req.body;
 
-    // on ne garde QUE les URLs cloudinary
     const valid = images
       .map(i => typeof i === 'string' ? i : i.url)
       .filter(u => u.startsWith('https://res.cloudinary.com'));
@@ -38,7 +44,6 @@ export default async function handler(req, res) {
         "Price":      prix,
         "Condition":  etat,
         "Inspection": inspection,
-        // stocke un JSON (tableau de strings) dans le long text
         "Image URLs": JSON.stringify(valid),
       }
     };
@@ -71,8 +76,7 @@ export default async function handler(req, res) {
       ...(fields.prix       && { "Price":      fields.prix }),
       ...(fields.etat       && { "Condition":  fields.etat }),
       ...(fields.inspection && { "Inspection": fields.inspection }),
-      // on stringify le nouveau tableau
-      ...(valid.length > 0  && { "Image URLs": JSON.stringify(valid) }),
+      ...(valid.length && { "Image URLs": JSON.stringify(valid) }),
     };
 
     if (Object.keys(airtableFields).length === 0) {
@@ -92,7 +96,7 @@ export default async function handler(req, res) {
   if (req.method === "DELETE") {
     const { id } = req.query;
     if (!id) return res.status(400).json({ error: "ID manquant." });
-    const del = await fetch(`${urlBase}/${id}`, { method: 'DELETE', headers });
+    const del = await fetch(`${urlBase}/${id}`, { method:'DELETE', headers });
     const data = await del.json();
     if (!del.ok) return res.status(del.status).json({ error: data });
     return res.status(200).json({ success: true });

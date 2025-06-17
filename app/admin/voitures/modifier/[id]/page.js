@@ -3,9 +3,12 @@ import ModifierForm from '@/components/admin/ModifierForm';
 
 async function fetchVoiture(id) {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
-  const res = await fetch(`${baseUrl}/api/voitures/${id}`);
+  const res = await fetch(
+    `${baseUrl}/api/voitures/${id}`,
+    { cache: 'no-store' }
+  );
   if (!res.ok) throw new Error("Erreur fetch voiture");
-  return await res.json();
+  return res.json();
 }
 
 export default async function Page({ params }) {
