@@ -3,7 +3,6 @@ import Link from "next/link";
 
 export default function CardVoiture({ voiture }) {
   if (!voiture) return null;
-
   const src = voiture.images?.[0];
 
   return (
@@ -21,11 +20,17 @@ export default function CardVoiture({ voiture }) {
             Pas de photo
           </div>
         )}
-        <div className="p-4">
+
+        <div className="p-4 space-y-1">
           <h2 className="text-xl font-bold">
             {voiture.marque} {voiture.modele}
           </h2>
-          <p className="text-sm text-gray-700">{voiture.annee}</p>
+          <div className="text-sm text-gray-600 flex flex-wrap gap-2">
+            {voiture.annee && <span>🗓 {voiture.annee}</span>}
+            {voiture.kilometrage != null && <span>🚗 {voiture.kilometrage.toLocaleString()} km</span>}
+            {voiture.carburant && <span>⛽ {voiture.carburant}</span>}
+            {voiture.transmission && <span>⚙️ {voiture.transmission}</span>}
+          </div>
           <p className="text-red-600 font-semibold mt-2">
             {voiture.prix?.toLocaleString()} €
           </p>

@@ -1,4 +1,3 @@
-// pages/api/voitures/index.js
 import { normalizeVoitureRecord } from '@/lib/normalizeVoiture';
 
 export default async function handler(req, res) {
@@ -16,21 +15,18 @@ export default async function handler(req, res) {
 
   // — GET
   if (req.method === "GET") {
-    // ← on désactive le cache ici
-    const resp = await fetch(urlBase, {
-      headers,
-      cache: 'no-store'
-    });
+    const resp = await fetch(urlBase, { headers, cache: 'no-store' });
     const data = await resp.json();
     if (!resp.ok) return res.status(resp.status).json({ error: data });
     const voitures = data.records.map(normalizeVoitureRecord);
     return res.status(200).json(voitures);
   }
 
-  // — POST
+  // — POST (création)
   if (req.method === "POST") {
-    const { marque, modele, annee, kilometrage, prix, etat, inspection, images = [] } = req.body;
+    const { marque, modele, annee, kilometrage, prix, etat, inspection, carburant, transmission, images = [] } = req.body;
 
+    // on ne garde que les URLs cloudinary valides
     const valid = images
       .map(i => typeof i === 'string' ? i : i.url)
       .filter(u => u.startsWith('https://res.cloudinary.com'));
@@ -44,6 +40,8 @@ export default async function handler(req, res) {
         "Price":      prix,
         "Condition":  etat,
         "Inspection": inspection,
+        "Fuel":            carburant,      // ← on ajoute carburant
+        "Transmission":    transmission,   // ← on ajoute transmission
         "Image URLs": JSON.stringify(valid),
       }
     };
@@ -58,7 +56,7 @@ export default async function handler(req, res) {
     return res.status(200).json(result);
   }
 
-  // — PATCH
+  // — PATCH (modification)
   if (req.method === "PATCH") {
     const { id } = req.query;
     const fields = req.body;
@@ -69,19 +67,22 @@ export default async function handler(req, res) {
       .filter(u => u.startsWith('https://res.cloudinary.com'));
 
     const airtableFields = {
-      ...(fields.marque     && { "Car Make":   fields.marque }),
-      ...(fields.modele     && { "Car Model":  fields.modele }),
-      ...(fields.annee      && { "Year":       fields.annee }),
-      ...(fields.kilometrage&& { "Mileage":    fields.kilometrage }),
-      ...(fields.prix       && { "Price":      fields.prix }),
-      ...(fields.etat       && { "Condition":  fields.etat }),
-      ...(fields.inspection && { "Inspection": fields.inspection }),
-      ...(valid.length && { "Image URLs": JSON.stringify(valid) }),
+      ...(fields.marque       && { "Car Make":   fields.marque }),
+      ...(fields.modele       && { "Car Model":  fields.modele }),
+      ...(fields.annee        && { "Year":       fields.annee }),
+      ...(fields.kilometrage  && { "Mileage":    fields.kilometrage }),
+      ...(fields.prix         && { "Price":      fields.prix }),
+      ...(fields.etat         && { "Condition":  fields.etat }),
+      ...(fields.inspection   && { "Inspection": fields.inspection }),
+      ...(fields.carburant    && { "Fuel":            fields.carburant }),      // ← carburant
+      ...(fields.transmission && { "Transmission":    fields.transmission }),   // ← transmission
+      ...(valid.length       && { "Image URLs": JSON.stringify(valid) }),
     };
 
     if (Object.keys(airtableFields).length === 0) {
       return res.status(400).json({ error: "Rien à mettre à jour." });
     }
+
     const resp = await fetch(`${urlBase}/${id}`, {
       method: 'PATCH',
       headers,
