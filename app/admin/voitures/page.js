@@ -64,14 +64,12 @@ export default function AdminVoituresPage() {
         </Link>
       </header>
 
-      {/* Affichage erreurs */}
       {error && (
         <div className="p-4 bg-red-100 border border-red-400 text-red-700 rounded">
           ⚠️ {error}
         </div>
       )}
 
-      {/* Recherche & Tri */}
       <div className="flex flex-col sm:flex-row gap-4">
         <input
           type="text"
@@ -93,7 +91,6 @@ export default function AdminVoituresPage() {
         </select>
       </div>
 
-      {/* Tableau */}
       {loading ? (
         <p className="text-center text-gray-500">Chargement des véhicules...</p>
       ) : (
@@ -113,9 +110,9 @@ export default function AdminVoituresPage() {
                 filtered.map(v => (
                   <tr key={v.id} className="hover:bg-gray-50">
                     <td className="p-2 border">
-                      {Array.isArray(v.images) && v.images.length > 0 && v.images[0] ? (
+                      {Array.isArray(v.images) && v.images.length > 0 && (v.images[0]?.url || v.images[0]) ? (
                         <img
-                          src={v.images[0]}
+                          src={typeof v.images[0] === 'string' ? v.images[0] : v.images[0]?.url}
                           alt={v.modele}
                           className="h-16 w-28 object-cover rounded"
                         />
