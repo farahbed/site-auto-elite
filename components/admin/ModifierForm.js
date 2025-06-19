@@ -1,6 +1,5 @@
 // components/admin/ModifierForm.jsx
 "use client";
-
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -9,99 +8,86 @@ const TRANSMISSION_OPTIONS = ["Manuelle", "Automatique"];
 
 export default function ModifierForm({ voiture }) {
   const router = useRouter();
-
   const [form, setForm] = useState({
-    marque: voiture.marque || "",
-    modele: voiture.modele || "",
-    annee: voiture.annee || "",
-    prix: voiture.prix || "",
+    marque:      voiture.marque      || "",
+    modele:      voiture.modele      || "",
+    annee:       voiture.annee       || "",
+    prix:        voiture.prix        || "",
     kilometrage: voiture.kilometrage || "",
-    carburant: voiture.carburant || "",
-    transmission: voiture.transmission || "",
-    portes: voiture.portes || "",
-    couleur: voiture.couleur || "",
+    carburant:   voiture.carburant   || "",
+    transmission:voiture.transmission|| "",
+    portes:      voiture.portes      || "",
+    puissance:   voiture.puissance   || "",    // <-- ajouté
+    couleur:     voiture.couleur     || "",
     description: voiture.description || "",
-    options: (voiture.options || []).join(", "),
+    options:     (voiture.options||[]).join(", "),
   });
-
   const [uploadedImages, setUploadedImages] = useState(voiture.images || []);
   const [error, setError] = useState("");
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     const { name, value } = e.target;
-    setForm((f) => ({ ...f, [name]: value }));
+    setForm(f => ({ ...f, [name]: value }));
   };
 
-  const handleFileUpload = async (e) => {
+  const handleFileUpload = async e => {
     const file = e.target.files[0];
     if (!file) return;
-
     const fd = new FormData();
     fd.append("images", file);
-
     try {
       const res = await fetch("/api/upload", { method: "POST", body: fd });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Erreur upload");
-      // Cloudinary renvoie { urls: [...] }
-      setUploadedImages((prev) => [...prev, ...(data.urls || [])]);
+      setUploadedImages(prev => [...prev, ...(data.urls || [])]);
     } catch (err) {
       console.error(err);
       setError("Échec de l’upload de l’image");
     }
   };
 
-  const removeImage = (url) =>
-    setUploadedImages((prev) => prev.filter((u) => u !== url));
+  const removeImage = url => {
+    setUploadedImages(prev => prev.filter(u => u !== url));
+  };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     setError("");
 
-    // —— Validation client
-    if (
-      !form.marque.trim() ||
-      !form.modele.trim() ||
-      !form.annee ||
-      !form.prix ||
-      !form.kilometrage
-    ) {
-      setError("Veuillez remplir tous les champs obligatoires.");
+    // validations minimales
+    if (!form.marque || !form.modele || !form.annee || !form.prix || !form.kilometrage) {
+      setError("Marque, modèle, année, prix et kilométrage sont obligatoires.");
       return;
     }
-    if (!form.carburant) {
-      setError("Veuillez sélectionner un carburant.");
-      return;
-    }
-    if (!form.transmission) {
-      setError("Veuillez sélectionner une transmission.");
+    if (!form.carburant || !form.transmission) {
+      setError("Carburant et transmission sont obligatoires.");
       return;
     }
     if (uploadedImages.length === 0) {
-      setError("Veuillez ajouter au moins une photo.");
+      setError("Ajoute au moins une photo.");
       return;
     }
 
-    // —— Prépare le tableau d’options
     const optionsArray = form.options
       .split(",")
-      .map((s) => s.trim())
+      .map(s => s.trim())
       .filter(Boolean);
 
     const payload = {
       id: voiture.id,
-      marque: form.marque.trim(),
-      modele: form.modele.trim(),
-      annee: Number(form.annee),
-      prix: Number(form.prix),
+      marque:      form.marque.trim(),
+      modele:      form.modele.trim(),
+      annee:       Number(form.annee),
+      prix:        Number(form.prix),
       kilometrage: Number(form.kilometrage),
-      carburant: form.carburant,
-      transmission: form.transmission,
-      portes: Number(form.portes) || undefined,
-      couleur: form.couleur.trim() || undefined,
+      carburant:   form.carburant,
+      transmission:form.transmission,
+      portes:      form.portes ? Number(form.portes) : undefined,
+      puissance:   form.puissance ? Number(form.puissance) : undefined, // <-- converti en nombre
+      couleur:     form.couleur.trim() || undefined,
       description: form.description.trim() || undefined,
-      options: optionsArray,
-      images: uploadedImages.map((url) => ({ url })),
+      options:     optionsArray,
+      images:      uploadedImages.map(url => ({ url })),
     };
 
     try {
@@ -123,21 +109,23 @@ export default function ModifierForm({ voiture }) {
     <form onSubmit={handleSubmit} className="space-y-4 text-black">
       {error && <p className="text-red-600">{error}</p>}
 
+      {/* Champs obligatoires */}
       {[
-        ["marque", "Marque"],
-        ["modele", "Modèle"],
-        ["annee", "Année"],
-        ["prix", "Prix (€)"],
-        ["kilometrage", "Kilométrage (km)"],
-      ].map(([name, label]) => (
+        ["marque","Marque","text"],
+        ["modele","Modèle","text"],
+        ["annee","Année","number"],
+        ["prix","Prix (€)","number"],
+        ["kilometrage","Kilométrage (km)","number"],
+      ].map(([name,label,type])=>(
         <div key={name}>
           <label className="block mb-1 font-medium">{label} *</label>
           <input
             name={name}
+            type={type}
             value={form[name]}
             onChange={handleChange}
-            className="w-full border rounded px-3 py-2"
             required
+            className="w-full border rounded px-3 py-2"
           />
         </div>
       ))}
@@ -149,14 +137,12 @@ export default function ModifierForm({ voiture }) {
           name="carburant"
           value={form.carburant}
           onChange={handleChange}
-          className="w-full border rounded px-3 py-2"
           required
+          className="w-full border rounded px-3 py-2"
         >
           <option value="">Sélectionnez…</option>
-          {CARBURANT_OPTIONS.map((opt) => (
-            <option key={opt} value={opt}>
-              {opt}
-            </option>
+          {CARBURANT_OPTIONS.map(opt => (
+            <option key={opt} value={opt}>{opt}</option>
           ))}
         </select>
       </div>
@@ -168,27 +154,39 @@ export default function ModifierForm({ voiture }) {
           name="transmission"
           value={form.transmission}
           onChange={handleChange}
-          className="w-full border rounded px-3 py-2"
           required
+          className="w-full border rounded px-3 py-2"
         >
           <option value="">Sélectionnez…</option>
-          {TRANSMISSION_OPTIONS.map((opt) => (
-            <option key={opt} value={opt}>
-              {opt}
-            </option>
+          {TRANSMISSION_OPTIONS.map(opt => (
+            <option key={opt} value={opt}>{opt}</option>
           ))}
         </select>
       </div>
 
-      {/* Autres champs libres */}
+      {/* Puissance */}
+      <div>
+        <label className="block mb-1 font-medium">Puissance (ch)</label>
+        <input
+          name="puissance"
+          type="number"
+          value={form.puissance}
+          onChange={handleChange}
+          placeholder="Ex. 150"
+          className="w-full border rounded px-3 py-2"
+        />
+      </div>
+
+      {/* Portes et couleur */}
       {[
-        ["portes", "Portes"],
-        ["couleur", "Couleur"],
-      ].map(([name, label]) => (
+        ["portes","Portes","number"],
+        ["couleur","Couleur","text"],
+      ].map(([name,label,type])=>(
         <div key={name}>
           <label className="block mb-1 font-medium">{label}</label>
           <input
             name={name}
+            type={type}
             value={form[name]}
             onChange={handleChange}
             className="w-full border rounded px-3 py-2"
@@ -203,18 +201,17 @@ export default function ModifierForm({ voiture }) {
           name="description"
           value={form.description}
           onChange={handleChange}
-          className="w-full border rounded px-3 py-2"
           rows={4}
+          className="w-full border rounded px-3 py-2"
         />
       </div>
 
-      {/* Options (multi-value) */}
+      {/* Options */}
       <div>
-        <label className="block mb-1 font-medium">
-          Options (séparées par des virgules)
-        </label>
+        <label className="block mb-1 font-medium">Options (virgules)</label>
         <input
           name="options"
+          type="text"
           value={form.options}
           onChange={handleChange}
           className="w-full border rounded px-3 py-2"
@@ -223,23 +220,17 @@ export default function ModifierForm({ voiture }) {
 
       {/* Upload images */}
       <div>
-        <label className="block mb-1 font-medium">Ajouter une photo *</label>
+        <label className="block mb-1 font-medium">Photos *</label>
         <input type="file" accept="image/*" onChange={handleFileUpload} />
         <div className="flex gap-4 mt-2 flex-wrap">
-          {uploadedImages.map((url, i) => (
+          {uploadedImages.map((url,i) => (
             <div key={i} className="relative">
-              <img
-                src={url}
-                alt={`upload-${i}`}
-                className="w-32 h-20 object-cover rounded"
-              />
+              <img src={url} className="w-32 h-20 object-cover rounded" />
               <button
                 type="button"
                 onClick={() => removeImage(url)}
                 className="absolute top-0 right-0 text-white bg-red-500 rounded-full w-6 h-6 text-xs"
-              >
-                ✕
-              </button>
+              >✕</button>
             </div>
           ))}
         </div>
