@@ -1,12 +1,17 @@
 // app/admin/voitures/modifier/[id]/page.js
 import ModifierForm from '@/components/admin/ModifierForm';
+import { getBaseUrl } from '@/lib/getBaseUrl';
 
 async function fetchVoiture(id) {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
-  const res = await fetch(
-    `${baseUrl}/api/voitures/${id}`,
-    { cache: 'no-store' }
-  );
+  console.log("✅ SITE_URL =", process.env.SITE_URL);
+  console.log("✅ VERCEL_URL =", process.env.VERCEL_URL);
+  console.log("✅ NEXT_PUBLIC_SITE_URL =", process.env.NEXT_PUBLIC_SITE_URL);
+
+  const baseUrl = getBaseUrl();
+  console.log("📡 Calling:", `${baseUrl}/api/voitures/${id}`);
+
+  const res = await fetch(`${baseUrl}/api/voitures/${id}`, { cache: 'no-store' });
+
   if (!res.ok) throw new Error("Erreur fetch voiture");
   return res.json();
 }
