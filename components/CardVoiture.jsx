@@ -7,7 +7,10 @@ export default function CardVoiture({ voiture }) {
 
   return (
     <Link href={`/vehicules/${voiture.id}`}>
-      <div className="bg-white text-black rounded-lg shadow-md overflow-hidden hover:scale-105 transition cursor-pointer">
+      {/* 1️⃣ flex col + h-full pour que toute la carte occupe la même hauteur */}
+      <div className="bg-white text-black rounded-lg shadow-md overflow-hidden hover:scale-105 transition cursor-pointer flex flex-col h-full">
+
+        {/* image fixe 192 px (h-48) */}
         {src ? (
           <img
             src={src}
@@ -21,17 +24,23 @@ export default function CardVoiture({ voiture }) {
           </div>
         )}
 
-        <div className="p-4 space-y-1">
+        {/* 2️⃣ flex-1 pour pousser le prix en bas même si le texte varie */}
+        <div className="p-4 flex flex-col flex-1 space-y-1">
           <h2 className="text-xl font-bold">
             {voiture.marque} {voiture.modele}
           </h2>
+
           <div className="text-sm text-gray-600 flex flex-wrap gap-2">
             {voiture.annee && <span>🗓 {voiture.annee}</span>}
-            {voiture.kilometrage != null && <span>🚗 {voiture.kilometrage.toLocaleString()} km</span>}
+            {voiture.kilometrage != null && (
+              <span>🚗 {voiture.kilometrage.toLocaleString()} km</span>
+            )}
             {voiture.carburant && <span>⛽ {voiture.carburant}</span>}
             {voiture.transmission && <span>⚙️ {voiture.transmission}</span>}
           </div>
-          <p className="text-red-600 font-semibold mt-2">
+
+          {/* 3️⃣ mt-auto = colle le prix en bas ; toutes les cartes finissent à la même hauteur */}
+          <p className="text-red-600 font-semibold mt-auto">
             {voiture.prix?.toLocaleString()} €
           </p>
         </div>
