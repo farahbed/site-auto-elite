@@ -29,7 +29,7 @@ export default function Footer() {
             </li>
             <li>
               <Link href="/login?next=/admin" className="hover:text-white hover:underline">
-                Espace admin
+                Espace Admin
               </Link>
             </li>
             <li>
