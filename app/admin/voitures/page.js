@@ -94,67 +94,112 @@ export default function AdminVoituresPage() {
       {loading ? (
         <p className="text-center text-gray-500">Chargement des véhicules...</p>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="w-full table-auto border-collapse">
-            <thead>
-              <tr className="bg-gray-100 text-gray-800">
-                <th className="p-3 border">Image</th>
-                <th className="p-3 border">Modèle</th>
-                <th className="p-3 border">Prix</th>
-                <th className="p-3 border">Année</th>
-                <th className="p-3 border">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filtered.length > 0 ? (
-                filtered.map(v => (
-                  <tr key={v.id} className="hover:bg-gray-50">
-                    <td className="p-2 border">
-                      {Array.isArray(v.images) && v.images.length > 0 && (v.images[0]?.url || v.images[0]) ? (
-                        <img
-                          src={typeof v.images[0] === 'string' ? v.images[0] : v.images[0]?.url}
-                          alt={v.modele}
-                          className="h-16 w-28 object-cover rounded"
-                        />
-                      ) : (
-                        <div className="h-16 w-28 bg-gray-200 flex items-center justify-center rounded text-gray-400 text-xs">
-                          Pas de photo
-                        </div>
-                      )}
+        <>
+          {/* Desktop: Table view */}
+          <div className="hidden sm:block overflow-x-auto">
+            <table className="w-full table-auto border-collapse">
+              <thead>
+                <tr className="bg-gray-100 text-gray-800">
+                  <th className="p-3 border">Image</th>
+                  <th className="p-3 border">Modèle</th>
+                  <th className="p-3 border">Prix</th>
+                  <th className="p-3 border">Année</th>
+                  <th className="p-3 border">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filtered.length > 0 ? (
+                  filtered.map(v => (
+                    <tr key={v.id} className="hover:bg-gray-50">
+                      <td className="p-2 border">
+                        {Array.isArray(v.images) && v.images.length > 0 && (v.images[0]?.url || v.images[0]) ? (
+                          <img
+                            src={typeof v.images[0] === 'string' ? v.images[0] : v.images[0]?.url}
+                            alt={v.modele}
+                            className="h-16 w-28 object-cover rounded"
+                          />
+                        ) : (
+                          <div className="h-16 w-28 bg-gray-200 flex items-center justify-center rounded text-gray-400 text-xs">
+                            Pas de photo
+                          </div>
+                        )}
+                      </td>
+                      <td className="p-2 border text-gray-900">
+                        {v.marque} <span className="font-medium">{v.modele}</span>
+                      </td>
+                      <td className="p-2 border text-gray-900">
+                        {v.prix?.toLocaleString()} €
+                      </td>
+                      <td className="p-2 border text-gray-900">{v.annee}</td>
+                      <td className="p-2 border space-x-2">
+                        <Link
+                          href={`/admin/voitures/modifier/${v.id}`}
+                          className="text-blue-600 hover:underline"
+                        >
+                          ✏️ Modifier
+                        </Link>
+                        <button
+                          onClick={() => handleDelete(v.id)}
+                          className="text-red-600 hover:underline"
+                        >
+                          🗑️ Supprimer
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={5} className="p-4 text-center text-gray-500">
+                      Aucun véhicule trouvé.
                     </td>
-                    <td className="p-2 border text-gray-900">
-                      {v.marque} <span className="font-medium">{v.modele}</span>
-                    </td>
-                    <td className="p-2 border text-gray-900">
-                      {v.prix?.toLocaleString()} €
-                    </td>
-                    <td className="p-2 border text-gray-900">{v.annee}</td>
-                    <td className="p-2 border space-x-2">
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Mobile: Cards view */}
+          <div className="sm:hidden grid grid-cols-1 gap-4">
+            {filtered.length > 0 ? (
+              filtered.map(v => (
+                <div key={v.id} className="bg-white rounded-lg shadow border border-gray-200 overflow-hidden">
+                  {Array.isArray(v.images) && v.images.length > 0 ? (
+                    <img
+                      src={typeof v.images[0] === 'string' ? v.images[0] : v.images[0]?.url}
+                      alt={v.modele}
+                      className="w-full h-40 object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-40 bg-gray-200 flex items-center justify-center text-gray-400">
+                      Pas de photo
+                    </div>
+                  )}
+                  <div className="p-4 text-black space-y-1">
+                    <p className="text-lg font-semibold">{v.marque} {v.modele}</p>
+                    <p className="text-sm">Année : {v.annee}</p>
+                    <p className="text-sm font-bold text-red-600">{v.prix?.toLocaleString()} €</p>
+                    <div className="flex justify-between mt-3">
                       <Link
                         href={`/admin/voitures/modifier/${v.id}`}
-                        className="text-blue-600 hover:underline"
+                        className="text-blue-600 font-medium"
                       >
                         ✏️ Modifier
                       </Link>
                       <button
                         onClick={() => handleDelete(v.id)}
-                        className="text-red-600 hover:underline"
+                        className="text-red-600 font-medium"
                       >
                         🗑️ Supprimer
                       </button>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan={5} className="p-4 text-center text-gray-500">
-                    Aucun véhicule trouvé.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p className="text-center text-gray-500">Aucun véhicule trouvé.</p>
+            )}
+          </div>
+        </>
       )}
     </section>
   );
