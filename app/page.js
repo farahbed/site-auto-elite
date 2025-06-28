@@ -39,8 +39,8 @@ export default async function HomePage() {
       </section>
 
       {/* COUPS DE CŒUR */}
-      <section className="max-w-6xl mx-auto px-6">
-        <h2 className="text-2xl font-bold text-red-500 mb-6">Notre sélection coup de cœur</h2>
+      <section className="max-w-6xl mx-auto px-6 text-center">
+        <h2 className="text-2xl font-bold text-red-500 mb-6 text-center">Notre sélection coup de cœur</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {voitures.slice(0, 3).map((voiture) => (
             <CardVoiture key={voiture.id} voiture={voiture} />
