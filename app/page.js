@@ -129,17 +129,21 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* APPEL À L’ACTION */}
-      <section className="text-center px-6">
-        <h2 className="text-2xl font-bold text-text mb-4">Vous souhaitez revendre votre voiture ?</h2>
-        <p className="text-subtle mb-6">Nous reprenons votre ancien véhicule, avec ou sans achat. Réponse sous 24h.</p>
-        <Link
-          href="/rachat"
-          className="bg-primary hover:bg-primary-hover text-white px-6 py-3 rounded uppercase tracking-wider"
-        >
-          Proposer mon véhicule
-        </Link>
-      </section>
+     {/* APPEL À L’ACTION */}
+<section className="text-center px-4 sm:px-6 py-12 bg-white text-text">
+  <div className="max-w-2xl mx-auto space-y-4">
+    <h2 className="text-2xl sm:text-3xl font-bold">Vous souhaitez revendre votre voiture ?</h2>
+    <p className="text-subtle text-base sm:text-lg">
+      Nous reprenons votre ancien véhicule, avec ou sans achat. Réponse sous 24h.
+    </p>
+    <Link
+      href="/rachat"
+      className="inline-block bg-primary hover:bg-primary-hover text-white px-6 py-3 rounded uppercase tracking-wider text-sm sm:text-base"
+    >
+      Proposer mon véhicule
+    </Link>
+  </div>
+</section>
 
       {/* MAP */}
       <section className="w-full max-w-4xl mx-auto px-4 py-8">
