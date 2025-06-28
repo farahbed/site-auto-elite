@@ -217,7 +217,7 @@ export default function AjouterForm() {
 
       <button
         type="submit"
-        className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700"
+        className="w-full bg-green-600 text-text py-2 rounded hover:bg-green-700"
       >
         ➕ Ajouter le véhicule
       </button>

@@ -229,7 +229,7 @@ export default function ModifierForm({ voiture }) {
               <button
                 type="button"
                 onClick={() => removeImage(url)}
-                className="absolute top-0 right-0 text-white bg-red-500 rounded-full w-6 h-6 text-xs"
+                className="absolute top-0 right-0 text-text bg-red-500 rounded-full w-6 h-6 text-xs"
               >✕</button>
             </div>
           ))}
@@ -238,7 +238,7 @@ export default function ModifierForm({ voiture }) {
 
       <button
         type="submit"
-        className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
+        className="bg-indigo-600 text-text px-4 py-2 rounded hover:bg-indigo-700"
       >
         Enregistrer les modifications
       </button>

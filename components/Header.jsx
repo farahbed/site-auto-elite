@@ -7,7 +7,7 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="bg-black text-white shadow-md">
+    <header className="bg-overlay text-text shadow-md">
       <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
         <Link href="/">
           <span className="text-xl font-bold tracking-wide">Auto Élite</span>
@@ -30,7 +30,7 @@ export default function Header() {
 
       {/* Menu mobile */}
       {menuOpen && (
-        <nav className="sm:hidden px-4 pb-4 flex flex-col space-y-4 text-sm uppercase font-medium tracking-wider bg-black">
+        <nav className="sm:hidden px-4 pb-4 flex flex-col space-y-4 text-sm uppercase font-medium tracking-wider bg-overlay">
           <Link href="/" onClick={() => setMenuOpen(false)} className="hover:text-red-500 transition">Accueil</Link>
           <Link href="/vehicules" onClick={() => setMenuOpen(false)} className="hover:text-red-500 transition">Véhicules</Link>
           <Link href="/a-propos" onClick={() => setMenuOpen(false)} className="hover:text-red-500 transition">À propos</Link>

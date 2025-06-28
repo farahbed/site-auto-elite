@@ -42,7 +42,7 @@ export default function CarrouselImages({ images }) {
             <img
               src={src}
               alt={`Photo ${idx + 1}`}
-              className="w-full h-[450px] md:h-[550px] lg:h-[650px] object-contain bg-black"
+              className="w-full h-[450px] md:h-[550px] lg:h-[650px] object-contain bg-overlay"
             />
           </SwiperSlide>
         ))}
@@ -50,14 +50,14 @@ export default function CarrouselImages({ images }) {
 
       {/* Flèches */}
       <button
-        className="swiper-button-prev-custom absolute top-1/2 left-2 -translate-y-1/2 z-20 p-2 bg-black/50 rounded-full hover:bg-black/70 transition"
+        className="swiper-button-prev-custom absolute top-1/2 left-2 -translate-y-1/2 z-20 p-2 bg-overlay/50 rounded-full hover:bg-overlay/70 transition"
       >
-        <ChevronLeft className="w-6 h-6 text-white" />
+        <ChevronLeft className="w-6 h-6 text-text" />
       </button>
       <button
-        className="swiper-button-next-custom absolute top-1/2 right-2 -translate-y-1/2 z-20 p-2 bg-black/50 rounded-full hover:bg-black/70 transition"
+        className="swiper-button-next-custom absolute top-1/2 right-2 -translate-y-1/2 z-20 p-2 bg-overlay/50 rounded-full hover:bg-overlay/70 transition"
       >
-        <ChevronRight className="w-6 h-6 text-white" />
+        <ChevronRight className="w-6 h-6 text-text" />
       </button>
     </div>
   );

@@ -14,7 +14,7 @@ export default function AdminLayout({ children }) {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="bg-black text-white flex items-center justify-between px-6 py-4">
+      <header className="bg-overlay text-text flex items-center justify-between px-6 py-4">
         <Link href="/admin/voitures" className="flex items-center gap-2 text-lg font-bold">
           🚗 Espace Admin
         </Link>

@@ -7,10 +7,7 @@ export default function CardVoiture({ voiture }) {
 
   return (
     <Link href={`/vehicules/${voiture.id}`}>
-      {/* 1️⃣ flex col + h-full pour que toute la carte occupe la même hauteur */}
-      <div className="bg-white text-black rounded-lg shadow-md overflow-hidden hover:scale-105 transition cursor-pointer flex flex-col h-full">
-
-        {/* image fixe 192 px (h-48) */}
+      <div className="bg-white text-text rounded-2xl border border-border shadow-lg overflow-hidden hover:shadow-xl hover:-translate-y-1 transition duration-300 cursor-pointer flex flex-col h-full">
         {src ? (
           <img
             src={src}
@@ -19,18 +16,17 @@ export default function CardVoiture({ voiture }) {
             loading="lazy"
           />
         ) : (
-          <div className="w-full h-48 bg-gray-200 flex items-center justify-center text-gray-400 text-lg">
+          <div className="w-full h-48 bg-gray-200 flex items-center justify-center text-subtle text-lg">
             Pas de photo
           </div>
         )}
 
-        {/* 2️⃣ flex-1 pour pousser le prix en bas même si le texte varie */}
         <div className="p-4 flex flex-col flex-1 space-y-1">
           <h2 className="text-xl font-bold">
             {voiture.marque} {voiture.modele}
           </h2>
 
-          <div className="text-sm text-gray-600 flex flex-wrap gap-2">
+          <div className="text-sm text-subtle flex flex-wrap gap-2">
             {voiture.annee && <span>🗓 {voiture.annee}</span>}
             {voiture.kilometrage != null && (
               <span>🚗 {voiture.kilometrage.toLocaleString()} km</span>
@@ -39,8 +35,7 @@ export default function CardVoiture({ voiture }) {
             {voiture.transmission && <span>⚙️ {voiture.transmission}</span>}
           </div>
 
-          {/* 3️⃣ mt-auto = colle le prix en bas ; toutes les cartes finissent à la même hauteur */}
-          <p className="text-red-600 font-semibold mt-auto">
+          <p className="text-primary font-semibold mt-auto">
             {voiture.prix?.toLocaleString()} €
           </p>
         </div>

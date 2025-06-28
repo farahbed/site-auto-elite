@@ -34,7 +34,7 @@ export default async function VoitureDetailPage({ params }) {
   ].filter(item => item.value !== undefined && item.value !== "");
 
   return (
-    <section className="max-w-4xl mx-auto px-4 py-8 text-white space-y-6">
+    <section className="max-w-4xl mx-auto px-4 py-8 text-text space-y-6">
       {/* Galerie */}
       {images?.length ? (
         <CarrouselImages images={images} />

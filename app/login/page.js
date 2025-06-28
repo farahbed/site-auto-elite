@@ -29,36 +29,39 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-blue-50 to-indigo-100 px-4">
-      <form onSubmit={handleSubmit} className="bg-white max-w-md w-full p-8 rounded-lg shadow-lg border border-gray-200">
-        <h1 className="text-3xl font-extrabold text-gray-900 mb-6 text-center">Connexion Admin</h1>
-        {error && (
-          <p className="bg-red-100 text-red-700 p-3 rounded mb-4 text-center">{error}</p>
-        )}
-        <div className="relative mb-6">
-          <input
-            type={showPassword ? "text" : "password"}
-            placeholder="Mot de passe"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            className="w-full border border-gray-300 rounded-md p-3 pr-20 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            autoFocus
-          />
-          <button
-            type="button"
-            onClick={() => setShow(!showPassword)}
-            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-indigo-600 font-semibold"
-          >
-            {showPassword ? "Cacher" : "Voir"}
-          </button>
-        </div>
+  <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-blue-50 to-indigo-100 px-4">
+    <form onSubmit={handleSubmit} className="bg-surface max-w-md w-full p-8 rounded-2xl shadow-xl border border-border">
+      <h1 className="text-3xl font-extrabold text-text mb-6 text-center">Connexion Admin</h1>
+
+      {error && (
+        <p className="bg-red-100 text-red-700 p-3 rounded mb-4 text-center">{error}</p>
+      )}
+
+      <div className="relative mb-6">
+        <input
+          type={showPassword ? "text" : "password"}
+          placeholder="Mot de passe"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+          className="w-full border border-border rounded-md p-3 pr-20 bg-white text-text focus:outline-none focus:ring-2 focus:ring-primary"
+          autoFocus
+        />
         <button
-          type="submit"
-          className="w-full bg-indigo-600 text-white py-3 rounded-md hover:bg-indigo-700 transition"
+          type="button"
+          onClick={() => setShow(!showPassword)}
+          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-primary font-semibold"
         >
-          Se connecter
+          {showPassword ? "Cacher" : "Voir"}
         </button>
-      </form>
-    </div>
-  );
+      </div>
+
+      <button
+        type="submit"
+        className="w-full bg-primary hover:bg-primary-hover text-white py-3 rounded-md transition"
+      >
+        Se connecter
+      </button>
+    </form>
+  </div>
+);
 }
