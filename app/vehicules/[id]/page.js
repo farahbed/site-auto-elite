@@ -34,74 +34,78 @@ export default async function VoitureDetailPage({ params }) {
   ].filter(item => item.value !== undefined && item.value !== "");
 
   return (
-    <section className="max-w-4xl mx-auto px-4 py-8 text-text space-y-6">
-      {/* Galerie */}
-      {images?.length ? (
-        <CarrouselImages images={images} />
-      ) : (
-        <p className="text-center text-gray-400">Pas de photo disponible</p>
-      )}
+   <section className="max-w-4xl mx-auto px-4 py-8 text-text space-y-6">
+  {/* Galerie */}
+  {images?.length ? (
+    <CarrouselImages images={images} />
+  ) : (
+    <p className="text-center text-subtle">Pas de photo disponible</p>
+  )}
 
-      {/* Titre + Prix */}
-      <div className="flex justify-between items-end">
-        <h1 className="text-3xl font-bold">{marque} {modele} — {annee}</h1>
-        <span className="text-2xl font-extrabold text-red-500">
-          {prix.toLocaleString()} €
-        </span>
+  {/* Titre + Prix */}
+  <div className="flex justify-between items-end flex-wrap gap-4">
+    <h1 className="text-3xl font-bold">{marque} {modele} — {annee}</h1>
+    <span className="text-2xl font-extrabold text-primary">
+      {prix.toLocaleString()} €
+    </span>
+  </div>
+
+  {/* Caractéristiques */}
+  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-surface p-6 rounded border border-border">
+    {specs.map(({ icon: Icon, label, value }) => (
+      <div key={label} className="flex items-center gap-3">
+        <Icon className="w-6 h-6 text-primary" />
+        <div>
+          <p className="text-sm text-subtle">{label}</p>
+          <p className="font-medium">{value}</p>
+        </div>
       </div>
+    ))}
+  </div>
 
-      {/* Caractéristiques */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-gray-800 p-6 rounded">
-        {specs.map(({ icon: Icon, label, value }) => (
-          <div key={label} className="flex items-center gap-2">
-            <Icon className="w-6 h-6 text-indigo-300" />
-            <div>
-              <p className="text-sm text-gray-400">{label}</p>
-              <p className="font-medium">{value}</p>
-            </div>
-          </div>
+  {/* Description libre */}
+  {description && (
+    <div className="bg-surface p-6 rounded border border-border">
+      <h2 className="text-xl font-semibold mb-2">Description</h2>
+      <p className="whitespace-pre-line text-text">{description}</p>
+    </div>
+  )}
+
+  {/* Options */}
+  {options.length > 0 && (
+    <div>
+      <h2 className="text-xl font-semibold mb-2">Options</h2>
+      <ul className="flex flex-wrap gap-2">
+        {options.map((opt, i) => (
+          <li key={i} className="bg-primary text-white px-3 py-1 rounded-full text-sm">
+            {opt}
+          </li>
         ))}
-      </div>
+      </ul>
+    </div>
+  )}
 
-      {/* Description libre */}
-      {description && (
-        <div className="bg-gray-900 p-6 rounded">
-          <h2 className="text-xl font-semibold mb-2">Description</h2>
-          <p className="whitespace-pre-line">{description}</p>
-        </div>
-      )}
+  {/* Rapport inspection */}
+  {inspection && (
+    <div>
+      <h2 className="text-xl font-semibold mb-2">Rapport d’inspection</h2>
+      <a
+        href={inspection}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-primary hover:underline"
+      >
+        Voir le rapport
+      </a>
+    </div>
+  )}
 
-      {/* Options */}
-      {options.length > 0 && (
-        <div>
-          <h2 className="text-xl font-semibold mb-2">Options</h2>
-          <ul className="flex flex-wrap gap-2">
-            {options.map((opt,i) => (
-              <li key={i} className="bg-indigo-600 px-3 py-1 rounded-full text-sm">
-                {opt}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      {/* Rapport inspection */}
-      {inspection && (
-        <div>
-          <h2 className="text-xl font-semibold mb-2">Rapport d’inspection</h2>
-          <a href={inspection} target="_blank" rel="noopener noreferrer"
-             className="text-indigo-300 hover:underline">
-            Voir le rapport
-          </a>
-        </div>
-      )}
-
-      {/* Retour */}
-      <div className="mt-8">
-        <Link href="/vehicules" className="text-red-400 hover:text-red-600">
-          ← Retour au catalogue
-        </Link>
-      </div>
-    </section>
+  {/* Retour */}
+  <div className="mt-8">
+    <Link href="/vehicules" className="text-primary hover:text-primary-hover">
+      ← Retour au catalogue
+    </Link>
+  </div>
+</section>
   );
 }
