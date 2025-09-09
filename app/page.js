@@ -32,7 +32,7 @@ export default async function HomePage() {
       <section className="max-w-5xl mx-auto px-6 text-text text-center">
         <h2 className="text-3xl font-bold mb-4 text-primary">Pourquoi nous faire confiance ?</h2>
         <p className="text-subtle leading-relaxed">
-          Auto Élite vous propose une sélection exclusive de véhicules d’occasion, contrôlés et garantis.  
+          GT AUTOS vous propose une sélection exclusive de véhicules d’occasion, contrôlés et garantis.  
           Grâce à notre expérience, vous bénéficiez d’un service transparent, d’un accompagnement personnalisé et d’une 
           qualité irréprochable.  
         </p>
@@ -148,7 +148,7 @@ export default async function HomePage() {
       {/* MAP */}
       <section className="w-full max-w-4xl mx-auto px-4 py-8">
         <div className="mb-4 text-center">
-          <h2 className="text-2xl font-semibold text-text">Garage Villebon Auto</h2>
+          <h2 className="text-2xl font-semibold text-text">GT AUTOS</h2>
           <p className="text-subtle">9 Avenue de Norvège, 91140 Villebon-sur-Yvette, France</p>
         </div>
         <div className="w-full h-[350px] rounded-xl overflow-hidden shadow-lg border border-border">

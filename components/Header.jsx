@@ -10,7 +10,7 @@ export default function Header() {
     <header className="bg-gray-500 text-white shadow-md">
       <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
         <Link href="/">
-          <span className="text-xl font-bold tracking-wide">Auto Élite</span>
+          <span className="text-xl font-bold tracking-wide">GT AUTOS</span>
         </Link>
 
         {/* Bouton menu mobile */}

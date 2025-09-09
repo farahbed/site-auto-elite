@@ -8,13 +8,13 @@ export default function Footer() {
         <div>
           <h3 className="text-base font-semibold mb-3">📍 Contact</h3>
           <p>
-            Auto Élite<br />
+            GT AUTOS<br />
             9 Avenue de Norvège<br />
             91140 Villebon-sur-Yvette
           </p>
           <p className="mt-3">
             📞 01 23 45 67 89<br />
-            📧 contact@autoelite.fr
+            📧 Gt.autos91@gmail.com 
           </p>
         </div>
 
@@ -34,7 +34,7 @@ export default function Footer() {
             </li>
             <li>
               <a
-                href="https://www.leboncoin.fr/recherche?category=2&owner_type=pro&locations=Villebon-sur-Yvette"
+                href="https://www.leboncoin.fr/boutique/98759/g_t_autos.htm"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:underline"
@@ -57,7 +57,7 @@ export default function Footer() {
       </div>
 
       <div className="mt-10 text-center text-xs text-gray-200">
-        © {new Date().getFullYear()} Auto Élite – Tous droits réservés · Site réalisé par{" "}
+        © {new Date().getFullYear()} GT AUTOS – Tous droits réservés · Site réalisé par{" "}
         <span className="font-semibold">Farah</span>
       </div>
     </footer>

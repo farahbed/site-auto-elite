@@ -8,7 +8,7 @@
 @import "swiper/css/pagination";
 
 :root {
-  --color-bg: #d1d5db;             /* gris clair => bg-gray-300 */
+  --color-bg: #FFFFFF;             /* gris clair => bg-gray-300 */
   --color-text: #111827;           /* gris foncé pour fond clair=> text-gray-900 */
   --color-subtle-text: #4b5563;    /* texte secondaire => text-gray-600 */
   --color-primary: #dc2626;        /* rouge principal => red-600 */

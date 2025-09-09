@@ -4,7 +4,7 @@ export default function Page() {
       <h1 className="text-3xl font-bold mb-6">À propos de Auto Élite</h1>
 
       <p className="text-subtle leading-relaxed mb-4">
-        Bienvenue chez <strong>Auto Élite</strong>, votre partenaire de confiance dans l’achat et la revente de voitures
+        Bienvenue chez <strong>Élite</strong>, votre partenaire de confiance dans l’achat et la revente de voitures
         d’occasion. Notre mission : proposer des véhicules soigneusement sélectionnés, transparents, fiables et adaptés
         à tous les budgets.
       </p>
@@ -23,7 +23,7 @@ export default function Page() {
       <p className="text-subtle leading-relaxed">
         Merci de votre confiance,
         <br />
-        <strong>L’équipe Auto Élite</strong>
+        <strong>L’équipe GT AUTOS </strong>
       </p>
     </section>
   );
