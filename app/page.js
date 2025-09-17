@@ -10,14 +10,15 @@ export default async function HomePage() {
     <div className="space-y-32 bg-bg text-text">
       {/* HERO AVEC IMAGE - full width */}
       <section className="relative h-[60vh] sm:h-[80vh] lg:h-screen w-full">
-  <Image
-    src="/images/gt-autos-banner.webp"
-    alt="GT Autos Banner"
-    fill
-    priority
-    quality={100}
-    className="object-cover object-center"
-  />
+ <Image
+  src="/images/banner.jpeg"
+  alt="GT Autos Banner"
+  fill
+  priority
+  quality={100}
+  unoptimized
+  className="object-cover object-center"
+/>
 
   {/* Overlay léger */}
   <div className="absolute inset-0 bg-black/20 z-10"></div>
