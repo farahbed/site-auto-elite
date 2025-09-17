@@ -67,7 +67,7 @@ export default async function HomePage() {
   <div className="max-w-5xl mx-auto px-6 text-center space-y-8">
     {/* Titre */}
     <h2 className="text-3xl sm:text-4xl font-bold text-primary uppercase tracking-wide">
-      À propos de GT AUTOS
+     Qui sommes-nous ?
     </h2>
 
     {/* Texte */}
