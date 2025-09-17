@@ -9,37 +9,37 @@ export default async function HomePage() {
   return (
     <div className="space-y-32 bg-bg text-text">
       {/* HERO AVEC IMAGE - full width */}
-      <section className="relative h-screen w-full">
-        <Image
-          src="/images/gt-autos-banner.webp"
-          alt="GT Autos Banner"
-          fill
-          priority
-          quality={100}
-          className="object-cover object-center"
-        />
+      <section className="relative h-[60vh] sm:h-[80vh] lg:h-screen w-full">
+  <Image
+    src="/images/gt-autos-banner.webp"
+    alt="GT Autos Banner"
+    fill
+    priority
+    quality={100}
+    className="object-cover object-center"
+  />
 
-        {/* Overlay léger */}
-        <div className="absolute inset-0 bg-black/20 z-10"></div>
+  {/* Overlay léger */}
+  <div className="absolute inset-0 bg-black/20 z-10"></div>
 
-        {/* Contenu */}
-        <div className="absolute inset-0 z-20 flex items-center justify-center">
-          <div className="text-center px-4">
-            <h1 className="text-4xl md:text-6xl font-bold mb-4 tracking-tight text-black drop-shadow-lg">
-              Voitures d’occasion haut de gamme
-            </h1>
-            <p className="text-lg md:text-xl mb-6 text-black drop-shadow">
-              Sélectionnées, contrôlées et prêtes à partir.
-            </p>
-            <Link
-              href="/vehicules"
-              className="bg-primary hover:bg-primary-hover text-white px-8 py-4 rounded text-base uppercase tracking-wider inline-block mt-2 shadow-md"
-            >
-              Voir les véhicules
-            </Link>
-          </div>
-        </div>
-      </section>
+  {/* Contenu */}
+  <div className="absolute inset-0 z-20 flex items-center justify-center px-4 sm:px-6">
+    <div className="text-center max-w-2xl">
+      <h1 className="text-2xl sm:text-4xl md:text-6xl font-bold mb-4 tracking-tight text-black drop-shadow-lg">
+        Voitures d’occasion haut de gamme
+      </h1>
+      <p className="text-sm sm:text-lg md:text-xl mb-6 text-black drop-shadow">
+        Sélectionnées, contrôlées et prêtes à partir.
+      </p>
+      <Link
+        href="/vehicules"
+        className="bg-primary hover:bg-primary-hover text-white px-5 py-3 sm:px-6 sm:py-3 rounded text-xs sm:text-sm md:text-base uppercase tracking-wider inline-block mt-2 shadow-md"
+      >
+        Voir les véhicules
+      </Link>
+    </div>
+  </div>
+</section>
 
       {/* COUPS DE CŒUR */}
       <section className="max-w-6xl mx-auto px-6 text-center">
