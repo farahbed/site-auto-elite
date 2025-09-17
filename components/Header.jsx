@@ -20,9 +20,7 @@ export default function Header() {
             className="object-contain"
             priority
           />
-          <span className="text-2xl font-bold tracking-wide text-primary">
-            GT AUTOS
-          </span>
+         
         </Link>
 
         {/* Bouton menu mobile */}
