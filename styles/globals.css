@@ -8,18 +8,19 @@
 @import "swiper/css/pagination";
 
 :root {
-  --color-bg: #FFFFFF;             /* gris clair => bg-gray-300 */
-  --color-text: #111827;           /* gris foncé pour fond clair=> text-gray-900 */
-  --color-subtle-text: #4b5563;    /* texte secondaire => text-gray-600 */
-  --color-primary: #dc2626;        /* rouge principal => red-600 */
-  --color-primary-hover: #b91c1c;  /* rouge foncé hover => red-700 */
-  --color-text-on-dark: #d1d5db;         /* blanc  pour fond foncé => text-gray-300 */
-  --color-overlay: rgba(0, 0, 0, 0.6); /* fond semi-transparent pour les overlays */
-  --color-border: #9ca3af;         /* bordures grises => gray-400 */
-  --color-title-on-dark: #e5e7eb; /* titre blanc pour fond foncé => text-gray-200 */
-  --color-surface: #f9fafb; /* plus clair que bg-bg, mais bien détaché */
-
+  --color-bg: #ffffff;             /* blanc */
+  --color-text: #000000;           /* noir */
+  --color-subtle-text: #333333;    /* gris foncé pour sous-texte */
+  --color-primary: #D4AF37;        /* doré */
+  --color-primary-hover: #B8860B;  /* doré foncé au hover */
+  --color-overlay: rgba(0, 0, 0, 0.3); /* overlay léger pour la bannière */
+  --color-border: #e5e7eb;         /* gris clair (borders) */
+  --color-white: #ffffff;          /* blanc pur */
+  --color-text-on-dark: #ffffff;   /* texte clair si jamais tu gardes du dark */
+  --color-title-on-dark: #f9f9f9;  /* titres clairs */
+  --color-surface: #fdfdfd;        /* surface claire (cards, etc.) */
 }
+
 body {
   background-color: var(--color-bg);
   color: var(--color-text);
