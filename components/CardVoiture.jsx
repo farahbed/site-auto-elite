@@ -8,6 +8,7 @@ export default function CardVoiture({ voiture }) {
   return (
     <Link href={`/vehicules/${voiture.id}`}>
       <div className="bg-white text-text rounded-2xl border border-border shadow-lg overflow-hidden hover:shadow-xl hover:-translate-y-1 transition duration-300 cursor-pointer flex flex-col h-full">
+        {/* Image */}
         {src ? (
           <img
             src={src}
@@ -21,13 +22,20 @@ export default function CardVoiture({ voiture }) {
           </div>
         )}
 
-        <div className="p-4 flex flex-col flex-1 space-y-1">
+        {/* Infos */}
+        <div className="p-4 flex flex-col flex-1 space-y-2">
           <h2 className="text-xl font-bold">
             {voiture.marque} {voiture.modele}
           </h2>
 
-          <div className="text-sm text-subtle flex flex-wrap gap-2">
-            {voiture.annee && <span>🗓 {voiture.annee}</span>}
+          <div className="flex flex-wrap items-center gap-2 text-sm text-subtle">
+            {/* ✅ Badge année stylisé */}
+            {voiture.annee && (
+              <span className="bg-black text-white text-xs font-bold px-3 py-1 rounded">
+                {voiture.annee}
+              </span>
+            )}
+
             {voiture.kilometrage != null && (
               <span>🚗 {voiture.kilometrage.toLocaleString()} km</span>
             )}
