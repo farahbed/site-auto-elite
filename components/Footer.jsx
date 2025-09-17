@@ -49,8 +49,8 @@ export default function Footer() {
         <div>
           <h3 className="text-base font-semibold mb-4 text-primary uppercase tracking-wide">🕒 Horaires</h3>
           <p className="leading-relaxed">
-            Lundi – Vendredi : 9h - 18h<br />
-            Samedi : 10h - 17h<br />
+            Lundi – Vendredi : 9h/12h - 13h/19h<br />
+            Samedi : 9h/19h<br />
             Dimanche : Fermé
           </p>
         </div>
