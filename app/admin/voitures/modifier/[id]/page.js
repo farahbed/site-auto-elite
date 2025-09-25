@@ -1,14 +1,11 @@
 // app/admin/voitures/modifier/[id]/page.js
 import ModifierForm from '@/components/admin/ModifierForm';
-import { getBaseUrl } from '@/lib/getBaseUrl';
+import { headers } from "next/headers";
 
 async function fetchVoiture(id) {
-  console.log("✅ SITE_URL =", process.env.SITE_URL);
-  console.log("✅ VERCEL_URL =", process.env.VERCEL_URL);
-  console.log("✅ NEXT_PUBLIC_SITE_URL =", process.env.NEXT_PUBLIC_SITE_URL);
-
-  const baseUrl = getBaseUrl();
-  console.log("📡 Calling:", `${baseUrl}/api/voitures/${id}`);
+  const host = headers().get("host");
+  const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
+  const baseUrl = `${protocol}://${host}`;
 
   const res = await fetch(`${baseUrl}/api/voitures/${id}`, { cache: 'no-store' });
 
