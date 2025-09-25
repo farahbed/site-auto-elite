@@ -39,7 +39,7 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 className="hover:text-primary transition"
               >
-                Le Bon Coin
+                Leboncoin
               </a>
             </li>
           </ul>

@@ -18,7 +18,7 @@ export default function ModifierForm({ voiture }) {
     annee: voiture.annee || "",
     prix: voiture.prix || "",
     kilometrage: voiture.kilometrage || "",
-    condition: voiture.condition || "", // <-- ajouté
+    condition: voiture.condition || "",
     carburant: voiture.carburant || "",
     transmission: voiture.transmission || "",
     portes: voiture.portes || "",
@@ -26,6 +26,7 @@ export default function ModifierForm({ voiture }) {
     couleur: voiture.couleur || "",
     description: voiture.description || "",
     options: (voiture.options || []).join(", "),
+    lienBoncoin: voiture.lienBoncoin || "", // <-- nouveau
   });
   const [uploadedImages, setUploadedImages] = useState(voiture.images || []);
   const [error, setError] = useState("");
@@ -84,7 +85,7 @@ export default function ModifierForm({ voiture }) {
       annee: Number(form.annee),
       prix: Number(form.prix),
       kilometrage: Number(form.kilometrage),
-      condition: form.condition, // <-- envoyé à Airtable
+      condition: form.condition,
       carburant: form.carburant,
       transmission: form.transmission,
       portes: form.portes ? Number(form.portes) : undefined,
@@ -93,6 +94,7 @@ export default function ModifierForm({ voiture }) {
       description: form.description.trim() || undefined,
       options: optionsArray,
       images: uploadedImages.map((url) => ({ url })),
+      lienBoncoin: form.lienBoncoin?.trim() || undefined, // <-- ajouté
     };
 
     try {
@@ -192,6 +194,19 @@ export default function ModifierForm({ voiture }) {
             </option>
           ))}
         </select>
+      </div>
+
+      {/* Lien Le Bon Coin */}
+      <div>
+        <label className="block mb-1 font-medium">Lien Leboncoin</label>
+        <input
+          name="lienBoncoin"
+          type="url"
+          value={form.lienBoncoin}
+          onChange={handleChange}
+          placeholder="https://www.leboncoin.fr/..."
+          className="w-full border border-border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+        />
       </div>
 
       {/* Puissance */}

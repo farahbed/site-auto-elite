@@ -22,6 +22,7 @@ export default function AjouterForm() {
     couleur: "",
     description: "",
     options: "",
+    lienBoncoin: "", // <-- nouveau champ
   });
   const [uploadedImages, setUploadedImages] = useState([]);
   const [error, setError] = useState("");
@@ -88,6 +89,7 @@ export default function AjouterForm() {
       description: form.description.trim() || undefined,
       options: form.options.split(",").map((s) => s.trim()).filter(Boolean),
       images: uploadedImages.map((url) => ({ url })),
+      lienBoncoin: form.lienBoncoin?.trim() || undefined, // <-- sauvegardé
     };
 
     try {
@@ -132,21 +134,21 @@ export default function AjouterForm() {
       ))}
 
       {/* Condition */}
-<div>
-  <label className="block mb-1 font-medium">Condition *</label>
-  <select
-    name="etat"
-    value={form.etat}
-    onChange={handleChange}
-    required
-    className="w-full border rounded px-3 py-2"
-  >
-    <option value="">-- Choisir --</option>
-    <option value="New">Neuf</option>
-    <option value="Used">Occasion</option>
-    <option value="Certified Pre-Owned">Certifiée</option>
-  </select>
-</div>
+      <div>
+        <label className="block mb-1 font-medium">Condition *</label>
+        <select
+          name="etat"
+          value={form.etat}
+          onChange={handleChange}
+          required
+          className="w-full border rounded px-3 py-2"
+        >
+          <option value="">-- Choisir --</option>
+          <option value="New">Neuf</option>
+          <option value="Used">Occasion</option>
+          <option value="Certified Pre-Owned">Certifiée</option>
+        </select>
+      </div>
 
       {/* Carburant & Transmission */}
       <div className="grid grid-cols-2 gap-4">
@@ -222,6 +224,19 @@ export default function AjouterForm() {
           value={form.options}
           onChange={handleChange}
           placeholder="GPS, Jantes alu,…"
+          className="w-full border border-border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+        />
+      </div>
+
+      {/* Lien vers Leboncoin */}
+      <div>
+        <label className="block mb-1 font-medium">Lien Leboncoin</label>
+        <input
+          name="lienBoncoin"
+          type="url"
+          value={form.lienBoncoin}
+          onChange={handleChange}
+          placeholder="https://www.leboncoin.fr/..."
           className="w-full border border-border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
         />
       </div>

@@ -8,7 +8,7 @@ export default function MentionsLegales() {
         <ul className="text-subtle space-y-1">
           <li><strong>Nom de l’entreprise :</strong> GT AUTOS </li>
           <li><strong>Forme juridique :</strong> SAS</li>
-          <li><strong>Capital social :</strong> 10 000 €</li>
+          <li><strong>Capital social :</strong> 1000 €</li>
           <li><strong>Siège social :</strong> 9 Avenue de Norvège, 91140 Villebon-sur-Yvette</li>
           <li><strong>SIRET :</strong> 000 000 000 00000</li>
           <li><strong>RCS :</strong> [VILLE DU GREFFE]</li>
