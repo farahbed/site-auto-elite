@@ -10,11 +10,11 @@ export default function MentionsLegales() {
           <li><strong>Forme juridique :</strong> SAS</li>
           <li><strong>Capital social :</strong> 1000 €</li>
           <li><strong>Siège social :</strong> 9 Avenue de Norvège, 91140 Villebon-sur-Yvette</li>
-          <li><strong>SIRET :</strong> 000 000 000 00000</li>
+          <li><strong>SIRET :</strong> 848 233 375 00023</li>
+           <li><strong>SIREN :</strong> 848 233 375</li>
           <li><strong>RCS :</strong> [VILLE DU GREFFE]</li>
-          <li><strong>Responsable de la publication :</strong> M. [Nom du Gérant]</li>
           <li><strong>Email :</strong> Gt.autos91@gmail.com</li>
-          <li><strong>Téléphone :</strong> 01 23 45 67 89</li>
+          <li><strong>Téléphone :</strong> 07 69 62 79 91</li>
         </ul>
       </section>
 
