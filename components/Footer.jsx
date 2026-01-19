@@ -28,11 +28,6 @@ export default function Footer() {
               </Link>
             </li>
             <li>
-              <Link href="/login?next=/admin" className="hover:text-primary transition">
-                Espace Admin
-              </Link>
-            </li>
-            <li>
               <a
                 href="https://www.leboncoin.fr/boutique/98759/g_t_autos.htm"
                 target="_blank"

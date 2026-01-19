@@ -9,15 +9,16 @@ export async function POST(request) {
   }
 
   const { password } = body;
+
   if (!password) {
     return new NextResponse("Mot de passe requis", { status: 400 });
   }
+
   if (password !== process.env.ADMIN_PASSWORD) {
     return new NextResponse("Mot de passe incorrect", { status: 401 });
   }
 
-  // Construire la string du cookie en dur
-  const maxAge = 60 * 60 * 24; // 1 jour en secondes
+  const maxAge = 60 * 60 * 24; // 1 jour
   const secure = process.env.NODE_ENV === "production" ? "; Secure" : "";
   const cookieValue = `admin=1; Path=/; HttpOnly; SameSite=Lax; Max-Age=${maxAge}${secure}`;
 
